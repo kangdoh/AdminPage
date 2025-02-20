@@ -1,0 +1,25 @@
+h1{
+    font-size: 3.5rem;
+    margin-top: 50px
+}
+.search {
+    border: 1px solid #c7c7c7;
+    font-size: 2.1rem;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.search::placeholder {
+    font-size: 2.1rem;
+    color: #999;
+}
+.search:focus{
+    /* border: none;
+    outline: none; */
+}
+.submitbtn{
+    margin-top: 30px;
+    width: 100%;
+    text-align: right;
+}

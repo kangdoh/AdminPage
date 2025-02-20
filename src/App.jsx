@@ -30,9 +30,9 @@ const MainContent = () => {
 
           <Route path='/adminboard/*' element={<AdminBoard />}>
             <Route path="" element={<Navigate to="boardlist" />}></Route>
-            <Route path='boardlist' element={<BoardList />}></Route>
-            <Route path='boardview/:idx' element={<BoardView />}></Route>
-            <Route path='boardinput' element={<BoardInput />}></Route>
+            <Route path='boardlist/:category' element={<BoardList />}></Route>
+            <Route path='boardview/:category/:idx' element={<BoardView />}></Route>
+            <Route path='boardinput/:category' element={<BoardInput />}></Route>
           </Route>
 
           <Route path='/adminprice' element={<AdminPrice />}></Route>
