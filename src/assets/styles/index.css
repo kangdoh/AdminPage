@@ -1,0 +1,21 @@
+html{
+    font-size: 10px;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ul, ol{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+    color: #000000;
+}
+img{
+    border: none;
+    vertical-align: bottom;
+}
+
+
