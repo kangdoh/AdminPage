@@ -404,7 +404,6 @@ function BoardList() {
   }
 
   
-
   // 체크박스 선택
   const [selectAll, setSelectAll] = useState(false);
   const [checkedItem, setCheckedItem] = useState({});
@@ -434,7 +433,6 @@ function BoardList() {
   const DeleteList = ()=>{
 
   }
-
 
 
   // 게시판 검색기능
