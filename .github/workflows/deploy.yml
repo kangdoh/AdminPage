@@ -1,0 +1,47 @@
+name: Deploy React App with Nginx to Lightsail
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시되면 실행
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ variables.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ variables.DOCKER_USERNAME }}/react-nginx-app:latest .
+
+      - name: Push to Docker Hub
+        run: |
+          docker push ${{ variables.DOCKER_USERNAME }}/react-nginx-app:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to AWS Lightsail
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ variables.LIGHTSAIL_SERVER_IP }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
+            docker stop react-nginx-app || true
+            docker rm react-nginx-app || true
+            docker pull ${{ variables.DOCKER_USERNAME }}/react-nginx-app:latest
+            docker run -d -p 80:80 --name react-nginx-app ${{ variables.DOCKER_USERNAME }}/react-nginx-app:latest
+            docker image prune -f  # 사용하지 않는 이미지 삭제
+          EOF
