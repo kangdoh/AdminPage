@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import PropTypes from 'prop-types';
 
 const BUTTON = styled.button`
   padding: 10px 20px; 
@@ -19,7 +20,11 @@ const BUTTON = styled.button`
   }
 `;
 
-function Button({props, onClick}) {
+function Button({ props, onClick }) {
+  Button.propTypes ={
+    props: PropTypes.string,
+    onClick: PropTypes.func.isRequired 
+  }
   return (
     <BUTTON onClick={onClick}>{props}</BUTTON>
   )

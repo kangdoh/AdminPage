@@ -5,11 +5,22 @@ import styled from 'styled-components';
 import boardlist from 'styles/boardlist.module.css'
 import Button from '../../components/common/Button';
 
+import IconImages from 'images/icon/iconimages.jsx';
+
 // styled-components ########################################
-const TITLE = styled.h2`
+const TITLE = styled.div`
   font-family: var(--font-family-pretendard-bold);
   font-size: 2.8rem;
   margin : 43px 0 18px 0;
+  display : flex;
+  align-items: center;
+
+  & img {
+    filter: brightness(0) saturate(100%) invert(0%) sepia(71%) saturate(7467%) hue-rotate(180deg) brightness(113%) contrast(97%);
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+  }
 `
 // ##########################################################
 
@@ -358,8 +369,8 @@ const boardData3 = [
   },
 ]
 
-function BoardList() {
 
+function BoardList() {
   // 통신으로 대체
   const { category } = useParams();
   // useEffect(()=>{
@@ -377,16 +388,16 @@ function BoardList() {
   //     }
   //   }
   // },[category])
-  
+
   let boardData = [{}]; // 임시 더미설정
   let boardTitle = (undefined);
-  if(category === '1'){boardData = boardData1, boardTitle='🔔공지사항'}
-  else if(category === '2'){boardData = boardData2, boardTitle='❓문의사항'}
-  else if(category === '3'){boardData = boardData3, boardTitle='❔FAQ'}
-  
+  let boardImage = (undefined);
+  if (category === '1') { boardData = boardData1, boardTitle = '공지사항', boardImage = IconImages.noticeicon; }
+  else if (category === '2') { boardData = boardData3, boardTitle = 'FAQ', boardImage = IconImages.faqicon; }
+  else if (category === '3') { boardData = boardData2, boardTitle = '문의 답변', boardImage = IconImages.inquiries; }
 
 
-  // 게시글 보기 navigater
+  // @-게시글 보기 navigater
   const navigate = useNavigate();
   const BoardView = (e, idx, state) => {
     if (e.target.type !== 'checkbox') {
@@ -399,12 +410,12 @@ function BoardList() {
     return
   }
   // 게시글 작성 navigater
-  const BoardInput = ()=>{
+  const BoardInput = () => {
     navigate(`/adminboard/boardinput/${category}`)
   }
 
-  
-  // 체크박스 선택
+
+  // @-체크박스 선택
   const [selectAll, setSelectAll] = useState(false);
   const [checkedItem, setCheckedItem] = useState({});
   // 전체선택
@@ -429,39 +440,77 @@ function BoardList() {
   }
 
 
-  // 게시글 삭제
-  const DeleteList = ()=>{
+  // @-체그된 리스트 id 출력(배열의 형태로)
+  // eslint-disable-next-line no-unused-vars
+  const checkTureList = Object.entries(checkedItem || {}).filter(([key, value]) => value === true).map(([key]) => key);
 
+
+
+  // @-게시글 삭제
+  const DeleteList = () => {
+    if (checkTureList.length === 0) {
+      alert('선택된 항목이 없습니다.')
+    }
+    else {
+      const result = confirm(`선택한 게시글을 삭제 하시겠습니까? (${checkTureList}번)`);
+      if (result) {
+        alert("삭제가 완료 되었습니다.");
+      } else {
+        alert("삭제가 취소 되었습니다.");
+      }
+    }
   }
 
 
-  // 게시판 검색기능
-  const keywordSearch = () => {
-    alert('집에 못가')
+  // @-게시판 검색기능
+  let callCount = 0;
+  const keywordSearch = (text) => {
+    callCount++;
+    if (callCount === 1) {
+      alert(`"${text}" 검색어를 찾아주고 싶지 않습니다.`)
+    }
+    else if (callCount === 2) {
+      alert(`"${text}"는 저도 사실 모르겠어요.`)
+    }
+    else if (callCount === 3) {
+      alert("구글에 검색해 보시는 게 어떨까요?")
+    }
+    else if (callCount === 4) {
+      callCount = 0;
+    }
   }
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      keywordSearch();
+      keywordSearch(event.target.value);
     }
   };
 
 
   return (
     <>
-      <TITLE>{boardTitle} 게시판</TITLE>
+      <TITLE>
+        <img src={boardImage} alt="" />
+        {boardTitle} 게시판
+      </TITLE>
       <section className={boardlist.topContainer}>
-        <article className={boardlist.filter}>
-          <p>필터</p>
-          <div>
-            <input type="checkbox" name="" id="delete" /><label htmlFor="delete">삭제만</label>
-            <input type="checkbox" name="" id="" />
-            <input type="checkbox" name="" id="" />
-            <input type="checkbox" name="" id="" />
-            <input type="checkbox" name="" id="" />
-            <input type="checkbox" name="" id="" />
-            <input type="checkbox" name="" id="" />
-          </div>
-        </article>
+        {category === '3' ?
+          <article className={boardlist.filter}>
+            <p>필터</p>
+            <div>
+              <div>
+                <input type="checkbox" name="" id="Transaction" /><label htmlFor="Transaction">Transaction Inquiry</label>
+                <input type="checkbox" name="" id="Report" /><label htmlFor="Report">Report an Issue</label>
+                <input type="checkbox" name="" id="Feature" /><label htmlFor="Feature">Feature Request</label>
+                <input type="checkbox" name="" id="Feedback" /><label htmlFor="Feedback">Other Feedback</label>
+                <input type="checkbox" name="" id="General" /><label htmlFor="General">General Inquiry</label>
+              </div>
+              <div>
+                <input type="checkbox" name="" id="wait" /><label htmlFor="wait">답변 대기중</label>
+                <input type="checkbox" name="" id="complete" /><label htmlFor="complete">답변 완료</label>
+              </div>
+            </div>
+          </article>
+          : ""}
 
         <article className={boardlist.search}>
           <label htmlFor='search'>검색어</label>
@@ -473,8 +522,8 @@ function BoardList() {
             <option value="title_content">제목+내용</option>
             <option value="user">작성자</option>
           </select>
-          <input id='search' name='search' type="search" placeholder='검색어를 입력해주세요.' onKeyDown={(e)=>{handleKeyDown(e)}}/>
-          <button onClick={()=>{keywordSearch()}}>검색</button>
+          <input id='search' name='search' type="search" placeholder='검색어를 입력해주세요.' onKeyDown={(e) => { handleKeyDown(e) }} />
+          <button onClick={() => { keywordSearch() }}>검색</button>
         </article>
       </section>
 
@@ -497,7 +546,9 @@ function BoardList() {
         <tbody>
           {boardData.map((item, index) => (
             <tr key={item.id} onClick={(e) => BoardView(e, item.id, item.state)}>
-              <td><input type="checkbox" checked={checkedItem[item.id] || false} onChange={() => { checkItem(item.id) }} /></td>
+              <td>
+                <input type="checkbox" checked={checkedItem[item.id] || false} onChange={() => { checkItem(item.id) }} />
+              </td>
               <td>{index + 1}</td>
               <td>{item.category}</td>
               <td className={boardlist.leftAlign}>{item.title}</td>
@@ -512,12 +563,12 @@ function BoardList() {
         </tbody>
       </table>
 
-
       {/* 게시물 생성 || 삭제 */}
       <div className={boardlist.cdBtn}>
-          <Button props="게시글 작성" onClick={()=>BoardInput()}></Button>
-          <Button props="선택 삭제" onClick={()=>DeleteList()}></Button>
+        <Button props="게시글 작성" onClick={() => BoardInput()}></Button>
+        <Button props="선택 삭제" onClick={() => DeleteList()}></Button>
       </div>
+
 
       {/* 페이지네이션 수정 예정(임시) */}
       <div className={boardlist.page}>

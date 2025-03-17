@@ -9,8 +9,8 @@ function BoardInput() {
   const { category } = useParams();
   const categoryMap = {
     '1': "공지사항",
-    '2': "문의하기",
-    '3': "FAQ"
+    '2': "FAQ",
+    '3': "문의 답변"
   };
   const categoryText = categoryMap[category]; 
 

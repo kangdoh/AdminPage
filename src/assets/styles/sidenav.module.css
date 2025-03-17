@@ -1,56 +1,69 @@
 /* 레이아웃 설정 ################################################ */
 .wrapper{
     position: fixed;
-    top: 100px;
+    top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 100px);
+    height: 100vh;
     /* width: 150px; */
-    background-color: #202630;
+    background-color: #FFFFFF;
     transition: width 0.3s ease;
     overflow: hidden;
+    z-index: 900;
 }
 .wrapper.open{
-    width: 230px;
+    width: 219px;
 }
 .wrapper.close{
-    width: 80px;
+    width: 65px;
 }
 
 /* 메뉴 리스트 상세 설정 ############################################## */
 .wrapper ul{
-    margin-top: 50px;
+    padding: 0 8px;
 }
 .wrapper ul li{
     width: 100%;
-    padding: 25px 20px;
 }
 .wrapper ul li a{
-    font-family: var(--font-family-pretendard-light);
-    font-size: 1.7rem;
-    color: #FFFFFF;
+    font-family: var(--font-family-pretendard-medium);
+    color: #707070;
+    font-size: 1.35rem;
+    line-height: 1.6rem;
+    letter-spacing: 0;
     white-space: nowrap;
-}
-.activeLink{
-    color: #FFA14D !important;
-}
 
+    display: flex;
+    align-items: center;
+    padding: 17px 15px;
+    border-radius: 4px;
+}
+.wrapper ul li img{
+    width: 19px;
+    height: auto;
+}   
+.wrapper ul li a>span{
+    margin-left: 13px;
+}
+.activeLink{background-color: rgba(223, 232, 239, 0.35);}
 
 /* 기타 설정 ############################################################# */
 .menutext{
-    opacity: 0;
     transition: opacity 0.3s ease;
     white-space: nowrap;
+    opacity: 0;
 }
 .menutext.open{
     opacity: 1;
 }
 
+
 .btn{
+    padding: 19px 23px;
     cursor: pointer;
-    color: #FFFFFF;
-    text-align: right;
-    padding: 10px 30px;
-    background-color: rgb(92, 90, 255);    
+}
+.btn img{
+    width: 19px;
+    height: auto;
 }

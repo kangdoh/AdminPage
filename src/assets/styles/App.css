@@ -1,32 +1,33 @@
 /* 기본 스타일 */
 .page_container {
-    /* width: calc(100% - 150px); */
-    height: calc(100vh - 100px);
     position: absolute;
-    top: 100px;
+    height: 100vh;
+    top: 0px;
+    /* width: calc(100% - 150px); */
     /* left: 150px; */
     transition: all 0.3s ease;
+    background-color: #DFE8EF;
 }
 .page_container.open{
-    width: calc(100% - 230px);
-    left: 230px;
+    width: calc(100% - 219px);
+    left: 219px;
 }
 .page_container.close{
-    width: calc(100% - 80px);
-    left: 80px;
+    width: calc(100% - 65px);
+    left: 65px;
 }
 
 
 /* 페이지별 배경색 */
 .page_container.home {
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
 }
 .page_container.adminuser {
-    background-color: #ffe4e1;
+    /* background-color: #ffe4e1; */
 }
 .page_container.adminboard {
-    background-color: #e6e6fa;
+    /* background-color: #e6e6fa; */
 }
 .page_container.adminprice {
-    background-color: #f0e68c;
+    /* background-color: #f0e68c; */
 }

@@ -1,7 +1,13 @@
+import chartcss from "styles/chart.module.css"
 
 function AdminHome() {
   return (
-    <div>AdminHome</div>
+      <section className={chartcss.home_wrapper}>
+
+        <div className={chartcss.visitorchart_wrapper}>
+        </div>
+
+      </section>
   )
 }
 
