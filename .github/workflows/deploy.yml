@@ -39,9 +39,9 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
           ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
-            docker stop react-nginx-app || true
-            docker rm react-nginx-app || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/react-nginx-app:latest
-            docker run -d -p 80:80 --name react-nginx-app ${{ secrets.DOCKER_USERNAME }}/react-nginx-app:latest
-            docker image prune -f  # 사용하지 않는 이미지 삭제
+            sudo docker stop react-nginx-app || true
+            sudo docker rm react-nginx-app || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/react-nginx-app:latest
+            sudo docker run -d -p 80:80 --name react-nginx-app ${{ secrets.DOCKER_USERNAME }}/react-nginx-app:latest
+            sudo docker image prune -f  # 사용하지 않는 이미지 삭제
           EOF
