@@ -14,7 +14,7 @@ function navSelect(isActive, currentPath, itemCategory) {
 
 const toLink = [
   { to: '/', icon: `${IconImages.iconChart01}`, icon02: `${IconImages.iconChart02}`, text: '통계' },
-  { to: '/adminuser', icon: `${IconImages.iconUser01}`, icon02: `${IconImages.iconUser02}`, text: '회원 정보 도커이미지도 필요없나?' },
+  { to: '/adminuser', icon: `${IconImages.iconUser01}`, icon02: `${IconImages.iconUser02}`, text: '회원 정보' },
   { to: '/admintransact', icon: `${IconImages.iconTransact01}`, icon02: `${IconImages.iconTransact02}`, text: '입출금' },
   { to: '/adminboard/boardlist/1', icon: `${IconImages.iconNotice01}`, icon02: `${IconImages.iconNotice02}`, text: '공지사항', category: "1" },
   { to: '/adminboard/boardlist/2', icon: `${IconImages.iconFaq01}`, icon02: `${IconImages.iconFaq02}`, text: 'FAQ', category: "2" },
