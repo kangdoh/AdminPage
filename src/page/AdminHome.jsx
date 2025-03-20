@@ -5,6 +5,8 @@ function AdminHome() {
       <section className={chartcss.home_wrapper}>
 
         <div className={chartcss.visitorchart_wrapper}>
+
+          ㄴㅇㄴㅇㄴㅇ
         </div>
 
       </section>
