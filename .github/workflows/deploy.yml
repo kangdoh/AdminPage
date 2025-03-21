@@ -31,29 +31,17 @@ jobs:
     steps:
       - name: Deploy to AWS Lightsail
         env:
-        SSH_PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
-        LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_SERVER_IP }}
-        LIGHTSAIL_USER: ubuntu
-        IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/react-nginx-app
-        IMAGE_TAG: latest
+          SSH_PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.LIGHTSAIL_SERVER_IP }}
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-  
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $LIGHTSAIL_USER@$LIGHTSAIL_HOST bash -s <<EOF
-            set -e
-            IMAGE_NAME="$IMAGE_NAME"
-            IMAGE_TAG="$IMAGE_TAG"
-  
-            docker pull \$IMAGE_NAME:\$IMAGE_TAG
-  
-            if [ "\$(docker ps -q -f name=react-nginx-app)" ]; then
-              docker stop react-nginx-app
-              docker rm react-nginx-app
-            fi
-  
-            docker run -d --name react-nginx-app -p 80:80 \$IMAGE_NAME:\$IMAGE_TAG
-  
-            docker image prune -f
+
+          ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
+            sudo docker stop react-nginx-app || true
+            sudo docker rm react-nginx-app || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/react-nginx-app:latest
+            sudo docker run -d -p 80:80 --name react-nginx-app ${{ secrets.DOCKER_USERNAME }}/react-nginx-app:latest
+            sudo docker image prune -f  # 사용하지 않는 이미지 삭제
           EOF
