@@ -6,7 +6,7 @@ function AdminHome() {
 
         <div className={chartcss.visitorchart_wrapper}>
 
-          수정수정ㄷㄷㄷㄷㄷ
+          수정수정
         </div>
 
       </section>
